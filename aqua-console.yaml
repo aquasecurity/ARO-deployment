@@ -25,15 +25,24 @@ subjects:
     name: aqua-account
     namespace: aqua-security
 ---
-apiVersion: v1
+apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
+  labels:
+    app: aqua-web
   name: aqua-web
+  namespace: aqua-security
 spec:
-  host: <PUBLIC_IP>
+  port:
+    targetPort: aqua-web
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
   to:
     kind: Service
     name: aqua-web
+    weight: 100
+  wildcardPolicy: None
 ---
 apiVersion: v1
 kind: Service
