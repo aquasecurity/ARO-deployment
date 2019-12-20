@@ -66,10 +66,15 @@ oc create -f aqua-gateway.yaml
 ```
 svc/aqua-gateway - 172.30.100.187:3622
 ```
-Another option to get the Aqua console IP address is 
+Another option to get Aqua's console IP address is 
 ```
 oc describe route aqua-web -n aqua-security
 ```
+
+## Step 2: Activate Aqua 
+
+
+
 
 
 
