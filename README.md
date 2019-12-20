@@ -41,15 +41,35 @@ oc create secret docker-registry aqua-registry --docker-server=registry.aquasec.
 
 ## Step 2: Deploy the Aqua Server, Database, and Gateway
 
-1. Download the aqua-console.yaml file and make the following changes -
-   1.1. Replace <PUBLIC_IP> with the DNS name or IP address of your OpenShift master node. This address will be used to access the Aqua Server after deployment has been completed: http://<PUBLIC_IP>:30080. 
-   1.2. Replace all occurrences of <DB_PASSWORD> with a password of your choice
-   1.3. In case there are DNS resolution issues, you might need to replace all instances of aqua-db with the IP address of the Aqua Gateway service.
+1. Download the **aqua-console.yaml** file and make the following changes -
+   1. Replace <PUBLIC_IP> with the DNS name or IP address of your OpenShift master node. This address will be used to access the Aqua Server after deployment has been completed: http://<PUBLIC_IP>:30080. 
+   2. Replace all occurrences of <DB_PASSWORD> with a password of your choice
+   3. In case there are DNS resolution issues, you might need to replace all instances of aqua-db with the IP address of the Aqua Gateway service.
 
-2. Download the aqua-db file and make the following changes -
-   2.1 Replace all occurrences of <DB_PASSWORD> with a password of your choice
-   2.2 In case there are DNS resolution issues, you might need to replace all occurrences of aqua-db with the IP address of Aqua Gateway service.
-
+2. Download the **aqua-db.yaml** file and make the following changes -
+   1. Replace all occurrences of <DB_PASSWORD> with a password of your choice
+   2. In case there are DNS resolution issues, you might need to replace all occurrences of aqua-db with the IP address of Aqua Gateway service.
+   
+3. Download the **aqua-gateway.yaml** file and make the following changes -
+   1. Replace all occurrences of <DB_PASSWORD> with a password of your choice
+   2. In case there are DNS resolution issues, you might need to replace all occurrences of aqua-db with the IP address of Aqua Gateway service.
+   
+4. Deploy all components 
+```
+oc project aqua-security
+oc create -f aqua-console.yaml
+oc create -f aqua-db.yaml
+oc create -f aqua-gateway.yaml
+```
+   
+5. Run **oc status** to verify the deployment of all components, and to capture the IP address assigned to the Aqua Gateway. You will need it when deploying the Aqua Enforcer. Your console output should show a line like the following, which includes the IP address of the Aqua Gateway:
+```
+svc/aqua-gateway - 172.30.100.187:3622
+```
+Another option to get the Aqua console IP address is 
+```
+oc describe route aqua-web -n aqua-security
+```
 
 
 
