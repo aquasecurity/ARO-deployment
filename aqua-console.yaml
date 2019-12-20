@@ -1,0 +1,116 @@
+apiVersion: v1
+kind: ClusterRole
+metadata:
+  annotations:
+    openshift.io/description: A user who can search and scan images from an OpenShift integrated registry.
+  name: image-scanner
+rules:
+- apiGroups:
+  resources:
+  - imagestreams
+  - imagestreams/layers
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: v1
+kind: ClusterRoleBinding
+metadata:
+  name: aqua-scanner-binding
+roleRef:
+  name: image-scanner
+subjects:
+  - kind: ServiceAccount
+    name: aqua-account
+    namespace: aqua-security
+---
+apiVersion: v1
+kind: Route
+metadata:
+  name: aqua-web
+spec:
+  host: <PUBLIC_IP>
+  to:
+    kind: Service
+    name: aqua-web
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aqua-web
+  labels:
+    app: aqua-web
+spec:
+  ports:
+    - port: 443
+      protocol: TCP
+      targetPort: 8443
+      name: aqua-web-ssl
+    - nodePort: 30080
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+      name: aqua-web
+  selector:
+    app: aqua-web
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aqua-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aqua-web
+  template:
+    metadata:
+      labels:
+        app: aqua-web
+      name: aqua-web
+    spec:
+      serviceAccount: aqua-account
+      imagePullSecrets:
+        - name: aqua-registry
+      containers:
+      - name: aqua-web
+        image: registry.aquasec.com/console:4.5
+        imagePullPolicy: Always
+        securityContext:
+          privileged: true
+        env:
+          - name: SCALOCK_DBUSER
+            value: "postgres"
+          - name: SCALOCK_DBPASSWORD
+            value: "<DB_PASSWORD>"
+          - name: SCALOCK_DBNAME
+            value: "scalock"
+          - name: SCALOCK_DBHOST
+            value: aqua-db
+          - name: SCALOCK_DBPORT
+            value: "5432"
+          - name: SCALOCK_AUDIT_DBUSER
+            value: "postgres"
+          - name: SCALOCK_AUDIT_DBPASSWORD
+            value: "<DB_PASSWORD>"
+          - name: SCALOCK_AUDIT_DBNAME
+            value: "slk_audit"
+          - name: SCALOCK_AUDIT_DBHOST
+            value: aqua-db
+          - name: SCALOCK_AUDIT_DBPORT
+            value: "5432"
+          - name: AQUA_DOCKERLESS_SCANNING
+            value: "1"
+          - name: AQUA_GRPC_MODE
+            value: "1"
+        volumeMounts:
+          - mountPath: /var/run/docker.sock
+            name: docker-socket-mount
+        ports:
+        - containerPort: 8080
+      volumes:
+        - name: docker-socket-mount
+          hostPath:
+            path: /var/run/docker.sock
