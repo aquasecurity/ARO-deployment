@@ -71,7 +71,29 @@ Another option to get Aqua's console IP address is
 oc describe route aqua-web -n aqua-security
 ```
 
-## Step 2: Activate Aqua 
+## Step 3: Activate Aqua 
+1. Open your browser and navigate to the IP address of the host on which the Aqua Server is deployed.By default, port 30080 is used. If you have set up a different port, use that. Refer to System Requirements for information about port assignment.
+```
+http://<HOST-IP>:30080
+````
+When you access the Aqua Server for the first time, you must enter and confirm the password for the administrator username.
+The password must be at least 8 characters long.
+
+2. If you access Aqua for the first time, you will need to provision your License token to activate Aqua
+
+## Step 4: Deploy Aqua enforcers
+This step will deploy the Aqua Enforcer across your OpenShift cluster by using a Kubernetes DaemonSet, which automatically deploys a single Aqua Enforcer container on each node in your cluster.
+
+First, you create a new Enforcer group in the Aqua Server. An Enforcer group is a set of zero or more Aqua Enforcers with the same configuration. You need to create one that will work with the OpenShift orchestrator; you cannot use the default Enforcer group for this.
+
+A byproduct of the Enforcer group creation is the DaemonSet required for OpenShift. Aqua does not automatically deploy the Enforcer on the host; you do this by using an OpenShift oc create command.
+
+You can run this command to deploy Enforcers on one or more hosts. All Enforcers deployed with the command will have the same configuration. If you need Enforcers with different characteristics, you will need to create one or more additional Enforcer groups.
+
+1. Log in into Aqua and navigate to the **Enforcers** view
+2. Click Add **Enforcer Group**
+3. On the **Enforcers > Create new group** screen, fill in the setting and make surethe **Orchestrator** is set to **OpenShift** (for more information about seting up Enforcers, please read Aqua's documentation)
+
 
 
 
