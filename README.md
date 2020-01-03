@@ -94,8 +94,21 @@ You can run this command to deploy Enforcers on one or more hosts. All Enforcers
 2. Click Add **Enforcer Group**
 3. On the **Enforcers > Create new group** screen, fill in the setting and make surethe **Orchestrator** is set to **OpenShift** (for more information about seting up Enforcers, please read Aqua's documentation)
 4. Click **Create Group** and wait for the server acknoledgment
+5. Copy the DemonSet YAML text from the screen (choose the 'Copy to clipboard' option in the UI)
+6. Save the copied YAML text to a file aqua-enforcer.yaml on your host
+7. Check the file and make sure that it uses the right namespace, account name, image names, registry, and token infomrtaion
+8. Create the deployment by running the following commnads:
+```
+oc project aqua-security
+oc create -f aqua-enforcer.yaml
+```
+9. It could take seceral minutes for the Aqua Enforcer(s) to be installed. Use the following command to  monitor ht status of the Aqua Enforcer deployment -
+```
+oc get pods -n aqua-security
+```
 
-
+## Step 5: Verify Aqua's Enforcer
+1. In the Aqua UI: Navigate to Enforcers and expand the line with the name of the new Enforcer. If the Enforcer is colored green then your installation is ready. 
 
 
 
