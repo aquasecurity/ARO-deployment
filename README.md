@@ -93,6 +93,9 @@ You can run this command to deploy Enforcers on one or more hosts. All Enforcers
 1. Log in into Aqua and navigate to the **Enforcers** view
 2. Click Add **Enforcer Group**
 3. On the **Enforcers > Create new group** screen, fill in the setting and make surethe **Orchestrator** is set to **OpenShift** (for more information about seting up Enforcers, please read Aqua's documentation)
+4. Click **Create Group** and wait for the server acknolesgmeent 
+
+
 
 
 
