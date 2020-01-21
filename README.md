@@ -1,4 +1,4 @@
-# Implement Aqua on ARO (Azure RedHat OpenShift)
+# Implement Aqua on ARO (Azure Red Hat OpenShift)
 
 ## Introduction 
 Follow the procedure on this page to perform a standard deployment of Aqua CSP in an OpenShift cluster. The Aqua Server components are deployed as Pods and Services, while the Aqua Enforcer is deployed as a DaemonSet.
@@ -8,7 +8,7 @@ This procedure describes how to deploy Aqua components on OpenShift through the 
 ## Step 1: Prepare prerequisites
 Perform the following prerequisite steps before you deploy Aqua components.
 
-1. Login in to the cluster as a user with *ARO Customer Admin* privileges
+1. Log in to the cluster as a user with *ARO Customer Admin* privileges
 
 ```
 oc login -u <user>
@@ -27,14 +27,14 @@ oc annotate scc hostaccess openshift.io/reconcile-protect=true
 oc annotate scc privileged openshift.io/reconcile-protect=true
 ```
 
-4. Set the Aqua'a enforcer priviliges 
+4. Set the Aqua Enforcer priviliges 
 ```
 oc adm policy add-cluster-role-to-user customer-admin-cluster system:serviceaccount:aqua-security:aqua-account
 oc adm policy add-scc-to-user privileged system:serviceaccount:aqua-security:aqua-account
 oc adm policy add-scc-to-user hostaccess system:serviceaccount:aqua-security:aqua-account
 ```
 
-5. Create a secret to store the credential to pull Aqua's images from the registry. Replace the key holders below with the credential you recived from Aqua Security
+5. Create a secret to store the credential to pull Aqua's images from the registry. Replace the key holders below with the credential you received from Aqua Security
 ```
 oc create secret docker-registry aqua-registry --docker-server=registry.aquasec.com --docker-username=<AQUA_USERNAME> --docker-password=<AQUA_PASSWORD> --docker-email=no@email.com -n aqua-security
 ```
@@ -72,7 +72,7 @@ oc describe route aqua-web -n aqua-security
 ```
 
 ## Step 3: Activate Aqua 
-1. Open your browser and navigate to the IP address of the host on which the Aqua Server is deployed.By default, port 30080 is used. If you have set up a different port, use that. Refer to System Requirements for information about port assignment.
+1. Open your browser and navigate to the IP address of the host on which the Aqua Server is deployed. By default, port 30080 is used. If you have set up a different port, use that. Refer to System Requirements for information about port assignment.
 ```
 http://<HOST-IP>:30080
 ````
@@ -102,7 +102,7 @@ You can run this command to deploy Enforcers on one or more hosts. All Enforcers
 oc project aqua-security
 oc create -f aqua-enforcer.yaml
 ```
-9. It could take seceral minutes for the Aqua Enforcer(s) to be installed. Use the following command to  monitor ht status of the Aqua Enforcer deployment -
+9. It could take several minutes for the Aqua Enforcer(s) to be installed. Use the following command to  monitor the status of the Aqua Enforcer deployment -
 ```
 oc get pods -n aqua-security
 ```
