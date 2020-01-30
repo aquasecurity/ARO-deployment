@@ -65,3 +65,6 @@ spec:
             value: "aqua-web:443"
         ports:
         - containerPort: 3622
+          protocol: TCP
+        - containerPort: 8443
+          protocol: TCP
