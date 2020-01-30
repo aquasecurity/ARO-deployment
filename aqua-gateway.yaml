@@ -10,6 +10,9 @@ spec:
       port: 3622
       protocol: TCP
       targetPort: 3622
+    - port: 8443
+      protocol: TCP
+      targetPort: 8443
   selector:
     app: aqua-gateway
   type: LoadBalancer
