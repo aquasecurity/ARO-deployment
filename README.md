@@ -1,5 +1,7 @@
 # Implement Aqua on ARO (Azure Red Hat OpenShift)
 
+> The following instructions are compatible with Aqua Cloud-Native Security Platform 4.2+ and ARO 3.11
+
 ## Introduction
 Follow the procedure on this page to perform a standard deployment of Aqua CSP in an OpenShift cluster. The Aqua Server components are deployed as Pods and Services, while the Aqua Enforcer is deployed as a DaemonSet.
 
