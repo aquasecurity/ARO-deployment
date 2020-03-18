@@ -66,7 +66,10 @@ spec:
             - name: SCALOCK_DBUSER
               value: "postgres"
             - name: SCALOCK_DBPASSWORD
-              value: "<DB_PASSWORD>"
+              valueFrom:
+                      secretKeyRef:
+                              name: aqua-database-password
+                              key: db-password
             - name: SCALOCK_DBNAME
               value: "scalock"
             - name: SCALOCK_DBHOST
@@ -76,7 +79,10 @@ spec:
             - name: SCALOCK_AUDIT_DBUSER
               value: "postgres"
             - name: SCALOCK_AUDIT_DBPASSWORD
-              value: "<DB_PASSWORD>"
+              valueFrom:
+                      secretKeyRef:
+                              name: aqua-database-password
+                              key: db-password
             - name: SCALOCK_AUDIT_DBNAME
               value: "slk_audit"
             - name: SCALOCK_AUDIT_DBHOST
