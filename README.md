@@ -41,25 +41,26 @@ oc adm policy add-scc-to-user hostaccess system:serviceaccount:aqua-security:aqu
 oc create secret docker-registry aqua-registry --docker-server=registry.aquasec.com --docker-username=<AQUA_USERNAME> --docker-password=<AQUA_PASSWORD> --docker-email=no@email.com -n aqua-security
 ```
 
+6. Create a secret to store the database password. Replace the key holders below with the your choice for the database password
+```
+oc create secret generic aqua-database-password --from-literal=db-password=<DB_PASSWORD> -n aqua-security 
+```
+
 ## Step 2: Deploy the Aqua Server, Database, and Gateway
 
-1. Download the **aqua-console.yaml** file and make the following changes -
-   1. Replace all occurrences of <DB_PASSWORD> with a password of your choice
-   2. In case there are DNS resolution issues, you might need to replace all instances of aqua-db with the IP address of the Aqua Gateway service.
+1. Download the **aqua-db.yaml** file and make the following changes -
 
-2. Download the **aqua-db.yaml** file and make the following changes -
-   1. Replace all occurrences of <DB_PASSWORD> with a password of your choice
-   2. In case there are DNS resolution issues, you might need to replace all occurrences of aqua-db with the IP address of Aqua Gateway service.
+2. Download the **aqua-console.yaml** file and make the following changes -
+   1. In case there are DNS resolution issues, you might need to replace all instances of aqua-db with the IP address of the Aqua Gateway service.
 
 3. Download the **aqua-gateway.yaml** file and make the following changes -
-   1. Replace all occurrences of <DB_PASSWORD> with a password of your choice
-   2. In case there are DNS resolution issues, you might need to replace all occurrences of aqua-db with the IP address of Aqua Gateway service.
+   1. In case there are DNS resolution issues, you might need to replace all occurrences of aqua-db with the IP address of Aqua Gateway service.
 
 4. Deploy all components
 ```
 oc project aqua-security
-oc create -f aqua-console.yaml
 oc create -f aqua-db.yaml
+oc create -f aqua-console.yaml
 oc create -f aqua-gateway.yaml
 ```
 
