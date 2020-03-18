@@ -36,6 +36,9 @@ spec:
           privileged: true
         env:
           - name: POSTGRES_PASSWORD
-            value: "<DB_PASSWORD>"
+            valueFrom:
+                    secretKeyRef:
+                            name: aqua-database-password
+                            key: db-password
         ports:
         - containerPort: 5432
