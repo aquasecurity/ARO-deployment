@@ -58,7 +58,7 @@ spec:
         - name: aqua-registry
       containers:
         - name: aqua-web
-          image: registry.aquasec.com/console:4.5
+          image: registry.aquasec.com/console:4.6
           imagePullPolicy: Always
           securityContext:
             privileged: true
