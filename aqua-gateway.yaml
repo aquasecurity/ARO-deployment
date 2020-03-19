@@ -39,7 +39,7 @@ spec:
         - name: aqua-registry
       containers:
       - name: aqua-gateway
-        image: registry.aquasec.com/gateway:4.5
+        image: registry.aquasec.com/gateway:4.6
         imagePullPolicy: Always
         securityContext:
           privileged: true
